@@ -1,6 +1,7 @@
 <?php
 /*
- * a l'initialisation de IteratorIterator, le curseur est à la fin. Il faut alors le reewind
+ * a l'initialisation de IteratorIterator, le curseur est à la fin. Il faut alors le rewind avant de pouvoir parcourir
+ * Cependant il semble que le rewind ne fonctionne qu'une fois ...
  */
 
 $pdo  = new PDO('mysql:host=localhost; dbname=safe_gestion', 'root', '');
@@ -10,6 +11,8 @@ while( $rslt = $stmt->fetch()){
     var_dump($rslt);
 }
 */
+
+//$stmt = array(1=>1,'b'=>'b',3=>3,'d'=>'d');
 
 echo '<hr />';
 $it = new IteratorIterator($stmt);
@@ -36,6 +39,3 @@ echo '<hr />';
 $it->rewind();
 $it->next();
 var_dump($it->current()[1]);
-
-
- 

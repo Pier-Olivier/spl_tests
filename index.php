@@ -12,5 +12,15 @@ and open the template in the editor.
     <body>
         <p><a href="iterator.php">iterator</a></p>
         <p><a href="iterator_iterator.php">iterator_iterator</a></p>
+        <p><a href="iterator_aggregate.php">iterator_aggregate</a></p>
+        
+        <p> exemples : </p>
+        <p>$tablo = array(
+    1=>'a',
+    2=>2,
+    3=>array('I','II','III'),
+    4=>array('XI','XII','X  III')
+);
+    </p>
     </body>
 </html>
