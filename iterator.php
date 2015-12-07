@@ -74,7 +74,9 @@ $mon_array = new MonArray($tablo, 1);
 foreach($mon_array as $v){ echo $v.'-';}
 echo '<hr />';
 
-reset($tablo);
+//reset($tablo);
+$mon_array->rewind();
+
 $mon_array->set_pas(2);
 
 while ($valeur = $mon_array->current()){
