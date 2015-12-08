@@ -1,7 +1,9 @@
 <?php
 
 /* 
- * 
+ * Implémentation de IteratorAggregate, Countable
+ * utilisation d'un attribut static
+ * essai de travaille sur une référence de tableau = échec
  */
 
 class Personne {
