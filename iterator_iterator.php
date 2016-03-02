@@ -1,3 +1,4 @@
+<h1>TEST avec PDO</h1>
 <?php
 /*
  * a l'initialisation de IteratorIterator, le curseur est à la fin. Il faut alors le rewind avant de pouvoir parcourir
@@ -6,6 +7,7 @@
 
 $pdo  = new PDO('mysql:host=localhost; dbname=safe_gestion', 'root', '');
 $stmt = $pdo->query("SELECT id_article,code_art,nom_art FROM article WHERE id_article<10");
+
 /*
 while( $rslt = $stmt->fetch()){
     var_dump($rslt);
@@ -20,22 +22,26 @@ $it = new IteratorIterator($stmt);
 
 
 echo '<hr />';
-/*
+//$it->rewind();
 foreach ($it as $val) {
     echo $val[0].'<br />';
 //    var_dump($val);
 }
-*/
+
 echo '<hr />';
 
 
-//$it->rewind();
+
+// ATTENTION ICI LE 2eme REWIND ne fonctionne pas !!!!!!!!!
+$it->rewind();
 while ($valeur = $it->current()){
     echo $valeur[0].'='.$valeur[1].'<br />';
     $it->next();
 }
 echo '<hr />';
 
+/*
 $it->rewind();
+var_dump($it->current());
 $it->next();
-var_dump($it->current()[1]);
+*/

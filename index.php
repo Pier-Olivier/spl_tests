@@ -12,6 +12,7 @@ and open the template in the editor.
     <body>
         <p><a href="iterator.php">iterator</a></p>
         <p><a href="iterator_iterator.php">iterator_iterator</a></p>
+        <p><a href="foreach.php">foreach</a></p>
         <p><a href="iterator_aggregate.php">iterator_aggregate</a></p>
         
         <p> exemples : </p>
@@ -21,6 +22,11 @@ and open the template in the editor.
     3=>array('I','II','III'),
     4=>array('XI','XII','X  III')
 );
+    </p>
+    <p>
+<?php
+
+?>
     </p>
     </body>
 </html>
