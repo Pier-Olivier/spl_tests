@@ -10,38 +10,48 @@ class Objet implements IteratorAggregate {
     private $_att2=2;
     public $_att3=3;
 
+    private $_att4=4;
+    
     public $_attribut_liste;
     
     public function __construct() {
-        $this->attribut_liste();
+        
     }
 
     public function getIterator(){//
-
-       //$reference = &$this->_listePersonnes;
-       //return new ArrayIterator($reference);
-        //return new ArrayIterator($this->_attribut_liste);
-        return new ArrayIterator(array('a','b','c'));
+       return new ArrayIterator($this->attribut_liste());
     }
 
-    public function attribut_liste() {
-        foreach ( $this as $cle => $valeur){
-echo '<p>'.$cle.' = '.$valeur.'</p>';
-            if ($cle != '_attribut_liste')
-                $this->_attribut_liste[$cle] = $valeur;
-        }
+    private function attribut_liste() {
+    
+    /*Ne peut pas fonctionné car getIterator influence foreach
+             foreach ( $this as $cle => $valeur){
+    echo '<p>'.$cle.' = '.$valeur.'</p>';
+                if ($cle != '_attribut_liste')
+                    $this->_attribut_liste[$cle] = $valeur;
+            }
 
+            return $this->_attribut_liste;*/
+
+        $this->_attribut_liste = get_object_vars ($this);
+        unset ($this->_attribut_liste['_attribut_liste']);
         return $this->_attribut_liste;
+
     }
+
 }
+
 $Objet = new Objet();
 
+if (  $Objet instanceof Traversable )
+    echo '<p>Objet est transversable</p>';
+else 
+    echo '<p>Objet n\'est pas transversable</p>';
+
+$Objet->_att5 = 5;
 
 foreach ($Objet as $cle =>$valeur) {
     echo '<p>'.$cle.' = '.$valeur.'</p>';
 }
 
-//var_dump($Objet->attribut_liste()->_attribut_liste);
-foreach ($Objet->attribut_liste() as $cle => $valeur){
-    echo '<p>'.$cle.' = '.$valeur.'</p>';
-}
+var_dump($Objet);

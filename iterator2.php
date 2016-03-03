@@ -68,11 +68,10 @@ class Personne {
     }
 }
 
-//implémentation IteratorAggregate la class est abstraite ce qui évite d'avoir à définir IteratorAggregate::getIterator
-abstract class Vehicule implements IteratorAggregate {
-    
+//implémentation IteratorAggregate
+abstract class Vehicule implements Iterator {
     public static $_n = 0;
-    
+
     protected $_listePersonnes = array();//agregation de personne
 
     public function __construct() {
@@ -82,20 +81,40 @@ abstract class Vehicule implements IteratorAggregate {
     public function nbr2vehicule() {
         return self::$_n;
     }
-    
-    public function getIterator(){
-        return new ArrayIterator($this->_listePersonnes);
-    }
 
     public function ajouterPersonne(Personne $P)  {
         $this->_listePersonnes[] = $P;
         return $this;
     }
+
+    public function valid(){
+        return array_key_exists(key($this->_listePersonnes), $this->_listePersonnes);
+    }
+
+    public function next(){
+        next($this->_listePersonnes);
+    }
+
+    public function rewind(){
+        reset($this->_listePersonnes);
+        return $this;
+    }
+
+    public function key(){
+        return key($this->_listePersonnes);
+    }
+
+    public function current(){
+        if ($this->valid())
+            return current($this->_listePersonnes);
+        else
+            return NULL;
+    }
 }
 
 //héritage de Vehicule => redefinition de getIterator
 class Voiture extends Vehicule {
-  
+   
 
     public function count() {//redéfinition de count pour ne compter que les personnes de + de 18 ans
 echo '<p>count () ne compte que les personnes qui ont plus de 18 ans</p>';
@@ -108,8 +127,7 @@ echo '<p>count () ne compte que les personnes qui ont plus de 18 ans</p>';
         return $n;
 
     }
-
-    public function & listePersonnes() {
+    public function listePersonnes() {
         $reference = $this->_listePersonnes;
         return $reference;
     }
@@ -133,6 +151,10 @@ echo '<h1>On peut verifier si un objet est transversable</h1>';
   if(  !$P1 instanceof Traversable )
       echo '<p>Personne n\'est pas transversable</p>';
       
+//echo $Voiture->nbr2vehicule();
+//var_dump($Voiture);
+//http://www.sitepoint.com/php-simple-object-iterators/
+
 echo '<h1>Foreach parcour les Personnes dans la voiture</h1>';
 foreach ($Voiture as $cle => $Personne){
    echo  $Personne->nom().' age : '.$Personne->description_age().'<br />';
@@ -140,35 +162,14 @@ foreach ($Voiture as $cle => $Personne){
 
 echo '<h1>On peut creer un iterateur pour parcourrir voiture</h1>';
 
-
-
-$ItAg = $Voiture->getIterator();
-var_dump($ItAg->current()->nom());
-$ItAg->next();
-var_dump($ItAg->current()->nom());
-$ItAg->next();
-var_dump($ItAg->current());
-
-$ItAg->rewind();
-var_dump($ItAg->current());
-
-var_dump($Voiture->count());
-
 $Voiture->rewind();
 var_dump($Voiture->current()->nom());
+$Voiture->next();
+var_dump($Voiture->current()->nom());
+$Voiture->next();
+var_dump($Voiture->current()->nom());
 
-/*
-var_dump($ItAg->count());
 
 var_dump($Voiture->count());
 
-foreach ($ItAg as $Personne){
-    echo $Personne->nom().''.$Personne->description_age().'<br />';
-}
 
-
-$listePersonne =& $Voiture->listePersonnes();
-var_dump(current($listePersonne)->nom());
-next($listePersonne);
-var_dump(current($listePersonne)->nom());
-*/

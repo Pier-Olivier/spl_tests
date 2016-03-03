@@ -12,8 +12,10 @@ and open the template in the editor.
     <body>
         <p><a href="iterator.php">iterator</a></p>
         <p><a href="iterator_iterator.php">iterator_iterator</a></p>
-        <p><a href="foreach.php">foreach</a></p>
         <p><a href="iterator_aggregate.php">iterator_aggregate</a></p>
+        <p><a href="iterator2.php">iterator2</a></p>
+        
+        <p><a href="foreach.php">foreach</a></p>
         
         <p> exemples : </p>
         <p>$tablo = array(
