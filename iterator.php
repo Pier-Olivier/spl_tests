@@ -1,114 +1,175 @@
 <?php
+
 /* 
- * Surcharge de next() en implémentant l'interface : Iterator
- * passe de l'array par référence qui permet de reset l'array ou de rewind Mon Array
- * pour remettre le curseur au début
- * keyString n'affique que les clés qui sont des strings
+ * Implémentation de IteratorAggregate
+ * utilisation d'un attribut static
+
  */
 
-class MonArray implements Iterator {
-    private $_tab = array();
+class Description {
+    
+    protected $_age;
+    protected $_poids;
 
-    private $_pas;
-
-    public function __construct( &$array, $pas = 1) {
-        $this->set_pas($pas);
-        $this->set_tab($array);
+    public function __construct($age, $poids) {
+        $this->set_age($age);
+        $this->set_poids($poids);
+    }
+    
+    public function set_age($age) {
+        $this->_age = $age;
     }
 
-    public function set_pas ($pas){
+    public function age() {
+        return $this->_age;
+    }
+    
+    public function set_poids($poids) {
+        $this->_poids = $poids;
+    }
+}
 
-        if (is_int($pas) && $pas <=0){
-            trigger_error('le pas est obligatoirement > 0 ?');
-            EXIT;
-        }
-        else
-            $this->_pas = $pas;
+class Personne {
+
+    protected $_nom;
+    protected $_prenom;
+    protected $_Description;
+
+    public function __construct($nom,$prenom, Description $Description) {
+        $this->set_nom($nom);
+        $this->set_prenom($prenom);
+        
+        //Agrégation de Description
+        $this->set_Description($Description);
     }
 
-    public function set_tab (&$array){
-        if (!is_array($array)){
-            trigger_error('le 1er attribut est un array ');
-            EXIT;
-        }
-        else
-            $this->_tab = &$array;
+    public function set_Description(Description $Description)  {
+        $this->_Description = $Description;
+    }
+    
+    public function set_nom($nom)  {
+        $this->_nom = $nom;
     }
 
-    public function valid(){
-        return array_key_exists(key($this->_tab), $this->_tab);
+    public function set_prenom($prenom)  {
+        $this->_prenom = $prenom;
+    }
+    
+    public function nom(){
+        return $this->_nom;
+    }
+    
+    public function prenom(){
+        return $this->_prenom;
+    }
+    
+    public function description_age() {
+        return $this->_Description->age();
+    }
+}
+
+//implémentation IteratorAggregate
+abstract class Vehicule implements Iterator {
+    public static $_n = 0;
+
+    protected $_listePersonnes = array();//agregation de personne
+
+    public function __construct() {
+        self::$_n++;
     }
 
-    public function next(){
+    public function nbr2vehicule() {
+        return self::$_n;
+    }
 
-        if (is_int($this->_pas)){
-            for ($i=1; $i<=$this->_pas; $i++) {
-                    next($this->_tab);
-                }
-        }
-
-        else if ($this->_pas ==='keyString'){
-
-            next($this->_tab);
-
-            while (!is_string(key($this->_tab)) && $this->valid()){
-                next($this->_tab);
-            }
-        }
-
+    public function ajouterPersonne(Personne $P)  {
+        $this->_listePersonnes[] = $P;
         return $this;
     }
 
+    public function valid(){
+        return array_key_exists(key($this->_listePersonnes), $this->_listePersonnes);
+    }
+
+    public function next(){
+        next($this->_listePersonnes);
+    }
+
     public function rewind(){
-        reset($this->_tab);
+        reset($this->_listePersonnes);
         return $this;
     }
 
     public function key(){
-        return key($this->_tab);
+        return key($this->_listePersonnes);
     }
 
     public function current(){
-    
-        if ($this->valid()){
-            
-            if ($this->_pas ==='keyString'){
-                if (!is_string(key($this->_tab))){
-                    next($this->_tab);
-                    return current($this->_tab);
-                }
-                else
-                    return current($this->_tab);
-            }
-            else
-                return current($this->_tab);
-        }
-
-        else return NULL;
+        if ($this->valid())
+            return current($this->_listePersonnes);
+        else
+            return NULL;
     }
 }
 
-//----------------------------------------------
+//héritage de Vehicule => redefinition de getIterator
+class Voiture extends Vehicule {
+   
 
-//$tablo = range (1, 10);
-$tablo = array(1=>1,'b'=>'b','c'=>'c',3=>3,'d'=>'d');
-//$tablo = array(10=>1,20=>'b',30=>3,40=>'d');
+    public function count() {//redéfinition de count pour ne compter que les personnes de + de 18 ans
+echo '<p>count () ne compte que les personnes qui ont plus de 18 ans</p>';
+        $n = 0;
+        while ($Objet = current($this->_listePersonnes)){
+            if ($Objet->description_age()>=18)
+                $n++;
+            next($this->_listePersonnes);
+        }
+        return $n;
 
-$mon_array = new MonArray($tablo,2);
-
-foreach($mon_array as $v){ echo $v.'-';}
-echo '<hr />';
-
-reset($tablo);
-
-$mon_array->set_pas('keyString');
-
-while ($valeur = $mon_array->current()){
-    echo $mon_array->key().'='.$valeur.'<br />';
-    $mon_array->next();
+    }
+    public function listePersonnes() {
+        $reference = $this->_listePersonnes;
+        return $reference;
+    }
 }
 
-echo '<hr />';
+$D1= new Description(18, 70);
+$D2= new Description(6, 25);
 
-$mon_array->rewind();
-echo $mon_array->next()->current();
+$P1 = new Personne('A','aa',$D1);
+$P2 = new Personne('B','bb',$D2);
+
+$Voiture = new Voiture();
+$Voiture->ajouterPersonne($P1)
+        ->ajouterPersonne($P2);
+
+        
+echo '<h1>On peut verifier si un objet est transversable</h1>';
+  if(  $Voiture instanceof Traversable )
+      echo '<p>Voirture est transversable</p>';
+  
+  if(  !$P1 instanceof Traversable )
+      echo '<p>Personne n\'est pas transversable</p>';
+      
+//echo $Voiture->nbr2vehicule();
+//var_dump($Voiture);
+//http://www.sitepoint.com/php-simple-object-iterators/
+
+echo '<h1>Foreach parcour les Personnes dans la voiture</h1>';
+foreach ($Voiture as $cle => $Personne){
+   echo  $Personne->nom().' age : '.$Personne->description_age().'<br />';
+}
+
+echo '<h1>On peut creer un iterateur pour parcourrir voiture</h1>';
+
+$Voiture->rewind();
+var_dump($Voiture->current()->nom());
+$Voiture->next();
+var_dump($Voiture->current()->nom());
+$Voiture->next();
+var_dump($Voiture->current()->nom());
+
+
+var_dump($Voiture->count());
+
+

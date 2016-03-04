@@ -20,6 +20,8 @@ echo '<hr />';
 $it = new IteratorIterator($stmt);
 //var_dump($it->getInnerIterator());
 
+$it->rewind();
+var_dump($it->current());
 
 echo '<hr />';
 //$it->rewind();
