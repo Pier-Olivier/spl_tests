@@ -123,9 +123,14 @@ $tablo = array(1=>1,'b'=>'b','c'=>'c',3=>3,'d'=>'d');
 
 $mon_array = new MonArray($tablo,2);
 
+echo '<p>Accès par [indice]</p>';
+echo $mon_array[0];
+echo '<hr />';
+
 
 echo '<p>Parcours array : tous les 2 indice</p>';
-foreach($mon_array as $v){ echo $v.'-';}
+foreach($mon_array as $v){
+    echo $v.'-';}
 echo '<hr />';
 
 echo '<p>on remet le curseur au debut de l\'array</p>';
