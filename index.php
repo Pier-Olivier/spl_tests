@@ -27,9 +27,10 @@
         </p>
         
         <p> quelques exemples  </p>
-        
-        <p><a href="iterator_iterator.php">iterator_iterator</a> | <a href="iterator_aggregate.php">iterator_aggregate</a> | <a href="iterator.php">iterator</a> | <a href="seekable_iterator.php">SeekableIterator</a> </p>
-        <p><a href="foreach.php">foreach</a> | <a href="mon_array.php">mon_array</a> | <a href="recursive_iterator_iterator.php">RecursiveIteratorIterator</a></p>
-        <p><img src="Diagrammedeclasses.gif" alt="Diagramme des Objets"> </p>
+        <h2>Inner Iterator</h2>
+        <p><a href="iterator.php">Iterator</a> | <a href="seekable_iterator.php">SeekableIterator</a> | <a href="iterator_aggregate.php">IteratorAggregate</a> | <a href="mon_array.php">mon_array</a> | <a href="foreach.php">foreach</a> </p>
+        <h2>Outer Iterator</h2>
+        <p><a href="iterator_iterator.php">iterator_iterator</a> | <a href="recursive_iterator_iterator.php">RecursiveIteratorIterator</a></p>
+        <p><img src="Diagrammedeclasses.png" alt="Diagramme des Objets"> </p>
     </body>
 </html>

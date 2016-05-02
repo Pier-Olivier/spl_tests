@@ -1,8 +1,8 @@
 <?php
 
 /* 
- * Implémentation de IteratorAggregate
- * utilisation d'un attribut static
+ * Implement Iterator auquel est ajouté 
+ * une méthode : seek($index) pour retourner l'élément dont la clé est $index
  */
 
 class Description {
@@ -88,7 +88,7 @@ abstract class Vehicule implements SeekableIterator {
     }
 
     public function valid($index=NULL){
-        if ($index)
+        if (NULL !== $index)
             return array_key_exists($index, $this->_listePersonnes);
         else
             return array_key_exists(key($this->_listePersonnes), $this->_listePersonnes);
@@ -103,7 +103,7 @@ abstract class Vehicule implements SeekableIterator {
         return $this;
     }
 
-    public function key(){
+    public function key(){//la clé de l'élément sur lequel est le curseur
         return key($this->_listePersonnes);
     }
 
@@ -114,7 +114,8 @@ abstract class Vehicule implements SeekableIterator {
             return NULL;
     }
     
-    public function seek($index) {
+    public function seek($index) {//retourne l'élément qui a pour clé index
+
         if ($this->valid($index))
             return $this->_listePersonnes[$index];
         else
@@ -159,4 +160,12 @@ foreach ($Voiture as $cle => $Personne){
 }
 
 echo '<h1>Acces directement a une personne de la voiture par son index</h1>';
+
+$Voiture->rewind();
+var_dump($Voiture->current());
+
 var_dump($Voiture->seek(1));
+
+echo '<h1>Le curseur n\'est pas deplace par seek()</h1>';
+echo 'key() renvoie : </p>';
+var_dump($Voiture->key());

@@ -1,9 +1,10 @@
 <?php
 /* 
+ * Création d'un Objet qui modifie le comportement de l'array qui lui est transmis
+ * Passage de l'array par référence ce qui permet d'indifférement reset() l'array ou rewind() Mon Array
+ * pour remettre le curseur au début. Il y a un seul curseur pour MonArray et pour l'array.
  * Surcharge de next() en implémentant l'interface : Iterator
- * passe de l'array par référence qui permet de reset l'array ou de rewind Mon Array
- * pour remettre le curseur au début
- * keyString n'affiche que les clés qui sont des strings
+ * keyString() n'affiche que les clés qui sont des strings
  * 
  * Implémentation de ArrayAccess pour accéder à l'objet[1]
  */

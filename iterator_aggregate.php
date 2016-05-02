@@ -3,7 +3,7 @@
 /* 
  * Implémentation de IteratorAggregate
  * utilisation d'un attribut static
-
+ * au lieu de définir current(), next() ... on défini getIterator (utilisé par foreach)
  */
 
 class Description {
