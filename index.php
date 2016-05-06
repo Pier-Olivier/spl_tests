@@ -19,18 +19,21 @@
         <p>L'Objet est mis dans l'intérateur [Association] et c'est lui qui parcourt les attributs de l'Objet </p>
         <p>RecursiveArrayIterator hérite de ArrayIterator et implémente RecursiveIterator<br />
         puis est parcouru autravers de l'objet RecursiveIteratorIterator ou de la methode iterator_apply</p>
-        
+
         <p> les iterators recusifs permettent de parcourir des structures avec différentes branches.<br />
             On "pose" un itétateur (RecursiveArrayIterator) puis on "l'encapsule" dans un IteratorIterator (RecursiveIteratorIterator).<br />
             $IteratorIterator ($Iterator ($Objet))).<br />
             On peut alors parcourir avec $IteratorIterator->next(), $IteratorIterator->current() et donc foreach ($IteratorIterator as $attribut)
         </p>
-        
+
         <p> quelques exemples  </p>
         <h2>Inner Iterator</h2>filter_iterator
         <p><a href="iterator.php">Iterator</a> | <a href="seekable_iterator.php">SeekableIterator</a> | <a href="iterator_aggregate.php">IteratorAggregate</a> | <a href="mon_array.php">mon_array</a> | <a href="foreach.php">foreach</a> </p>
         <h2>Outer Iterator</h2>
         <p><a href="filter_iterator.php">FilterIterator</a> | <a href="iterator_iterator.php">iterator_iterator</a> | <a href="recursive_iterator_iterator.php">RecursiveIteratorIterator</a></p>
+
+        <p>| <a href="directory_iterator.php">DirectoryIterator</a>
+
         <p><img src="Diagrammedeclasses.png" alt="Diagramme des Objets"> </p>
     </body>
 </html>

@@ -2,7 +2,7 @@
 /*
  * a l'initialisation de IteratorIterator, le curseur est à la fin. Il faut alors le rewind avant de pouvoir parcourir
  * quand on redefinit rewind() dans FilterIterator, cela empèche de fonctionner accept()
- * D'où la création de la calss MonIterator qui permet de modifier la façon dont le tableau est parcouru grace à current()
+ * D'où la création de la calss PDOIterator qui permet de modifier la façon dont le tableau est parcouru grace à current()
  * 
  * 
  * SQL pour l'exemple :
@@ -30,7 +30,7 @@ INSERT INTO `liste2teste` (`id`, `valeur`, `nom`, `description`) VALUES
  */
 
 
-class MonIterator extends ArrayIterator {
+class PDOIterator extends ArrayIterator {
     
     protected $_array;
     protected $_champ;
@@ -75,10 +75,10 @@ class PDOFilter extends FilterIterator {
     protected $_iterator;
     protected $_filtre;
 
-    function __construct($iterator,$filtre = self::PAIR) {
-        $this->_iterator  = $iterator;
+    function __construct($Iterator,$filtre = self::PAIR) {
+        $this->_iterator  = $Iterator;
         $this->set_filtre($filtre);
-        parent::__construct($iterator);
+        parent::__construct($Iterator);
     }
     
     public function set_filtre ($filtre) {
@@ -108,31 +108,30 @@ $Resultat = $Pdo->query('SELECT * FROM liste2teste ');
 $liste = $Resultat->fetchAll(PDO::FETCH_ASSOC);
 var_dump($liste);
 
-echo '<h1>Filtre des infos dont valeur est Pair</h1>';
+echo '<h1>Filtre des infos dont valeur est impair</h1>';
 
-$iterator = new MonIterator($liste,'valeur');
-$iterator_iterator = new PDOFilter($iterator,PDOFilter::IMPAIR);
+$Iterator = new PDOIterator($liste,'valeur');
+$Iterator_iterator = new PDOFilter($Iterator,PDOFilter::IMPAIR);
 
 echo '<h2>avec foreach</h2>';
-foreach ($iterator_iterator as $number) {
+foreach ($Iterator_iterator as $number) {
 var_dump($number);
 }
 
 echo '<h2>avec while</h2>';
-$iterator_iterator->rewind();
-while ($entre = $iterator_iterator->current()){
+$Iterator_iterator->rewind();
+while ($entre = $Iterator_iterator->current()){
     var_dump($entre);
-    $iterator_iterator->next();
+    $Iterator_iterator->next();
 }
 
 echo '<h1>Filtre des infos dont description comporte c</h1>';
-$iterator->set_champs('description');
-$iterator_iterator->set_filtre('c');
+$Iterator->set_champs('description');
+$Iterator_iterator->set_filtre('c');
 
 echo '<h2>avec while</h2>';
-$iterator_iterator->rewind();
-while ($entre = $iterator_iterator->current()){
+$Iterator_iterator->rewind();
+while ($entre = $Iterator_iterator->current()){
     var_dump($entre);
-    $iterator_iterator->next();
+    $Iterator_iterator->next();
 }
-
